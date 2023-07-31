@@ -1,18 +1,30 @@
 from pytube import YouTube
 import random
 
-def downloadYoutube(link, res):
-    yt = YouTube(link)
+def downloadYoutube(link, id):
+    yt = YouTube(link.strip())
     if (yt.length < 600):
-        yt = yt.streams.get_by_resolution(res+'p')
-
+        yt = yt.streams.get_by_resolution("720p")
         try:
-            youtube_video_downloaded = yt.download(output_path='videos', filename=f'youtube_{random_youtube_1}_{random_youtube_2}.mp4')
+            youtube_video_downloaded = yt.download(output_path='videos', filename=f'youtube_for_{id}.mp4')
             youtube_video_downloaded
+            print("Download is completed successfully")
         except:
             print("Download Error")
-        print("Download is completed successfully")
+        
+def getTitle(link):
+    yt = YouTube(link.strip())
+    title = yt.title
+    return title
 
-random_youtube_1 = random.randint(1,9999999)
-random_youtube_2 = random.randint(1,9999999)
+def downloadYoutubemp3(link, id):
+    yt = YouTube(link.strip())
+    if (yt.length < 600):
+        yt = yt.streams.filter(only_audio=True).first()
+        try:
+            youtube_video_downloaded = yt.download(output_path='videos', filename=f'youtube_for_{id}.mp3')
+            youtube_video_downloaded
+            print("Download is completed successfully")
+        except:
+            print("Download Error")
 
