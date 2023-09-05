@@ -4,8 +4,8 @@ import os
 import json
 from aiogram import Dispatcher, types
 from aiogram.dispatcher import FSMContext
-import basic_func
-from bot_states import function_form
+from messages.addition import basic_func
+from messages.addition.bot_states import start_state
 
 
 bot = basic_func.bot
@@ -41,7 +41,7 @@ async def send_start(message: types.Message, state: FSMContext):
                     user_database_list.append(user_database_dictionary)
                     json.dump(user_database_list, json_database, ensure_ascii=False,sort_keys=True, indent=4, separators=(",", ": "))
     await state.finish()
-    await function_form.function_choice.set()
+    await start_state.function_choice.set()
     await message.reply(f"Hi {message.from_user.mention}")
     await message.answer("\nChoose from:\nDownload tiktok video /tiktok\nDownload youtube video /youtube\nWrite notes /note\nOr cancel with /cancel")
 
@@ -62,6 +62,3 @@ def setup(dp: Dispatcher):
     dp.register_message_handler(send_start, state="*", commands=["start"])
     dp.register_message_handler(send_cancel, state="*", commands=["cancel"])
     dp.register_message_handler(send_help, state="*", commands=["help"])
-
-
-

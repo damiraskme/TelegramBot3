@@ -5,8 +5,8 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Command
 from download_tiktok import *
 from download_youtube import *
-import basic_func
-from bot_states import function_form, youtube_states
+from messages.addition import basic_func
+from messages.addition.bot_states import start_state, youtube_states
 
 
 bot = basic_func.bot
@@ -42,7 +42,7 @@ async def download_youtubemp4(message: types.Message, state: FSMContext):
         with open(f"videos/youtube_for_{message.from_user.id}.mp4", "rb") as youtube_video:
         # Send the MP4 file to the user
             youtube_links.clear()
-            await function_form.function_choice.set()
+            await start_state.function_choice.set()
             await bot.send_video(message.from_user.id, youtube_video, caption=f"{youtube_title}")
             await bot.send_message("Want to do something else or cancel with /cancel")
     except FileNotFoundError:
@@ -69,7 +69,7 @@ async def download_youtubemp3(message: types.Message, state: FSMContext):
         with open(f"videos/youtube_for_{message.from_user.id}.mp3", "rb") as youtube_video:
             # Send the MP3 file to the user
             youtube_links.clear()
-            await function_form.function_choice.set()
+            await start_state.function_choice.set()
             await bot.send_audio(message.from_user.id, youtube_video, caption=f"{youtube_title}")
             await bot.send_message("Want to do something else or cancel with /cancel")
     except FileNotFoundError:
@@ -85,7 +85,7 @@ async def download_youtubemp3(message: types.Message, state: FSMContext):
         logging.error(f"Can't find {youtube_links[message.from_user.id]} file")
 
 def setup(dp: Dispatcher):
-    dp.register_message_handler(download_youtubemp4_link, state=function_form.function_choice, commands=["youtube"])
+    dp.register_message_handler(download_youtubemp4_link, state=start_state.function_choice, commands=["youtube"])
     dp.register_message_handler(download_youtube_answer, state=youtube_states.youtube_download)
     dp.register_callback_query_handler(download_youtubemp4, text="mp4_button", state=youtube_states.youtube_choice)
     dp.register_callback_query_handler(download_youtubemp3, text="mp3_button", state=youtube_states.youtube_choice)
