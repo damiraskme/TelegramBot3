@@ -16,10 +16,9 @@ async def download_tiktok_answer(message:types.Message, state: FSMContext):
 
 async def download_tiktok(message:types.Message, state: FSMContext):
     downloadVideo(message.text, message.from_user.id)
-    id = message.from_user.id
     if (os.path.isfile("messages/tiktok_videos/file_{id}.mp4")):
         print("yes")
-    with open(f"messages/tiktok_videos/file_{id}.mp4", "rb") as tiktok_video:
+    with open(f"messages/tiktok_videos/file_{message.from_user.id}.mp4", "rb") as tiktok_video:
         # Send the MP4 file to the user
         await start_state.function_choice.set()
         await bot.send_video(message.from_user.id, tiktok_video, caption="Your tiktok video file")
