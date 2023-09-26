@@ -97,15 +97,14 @@ def getJson() -> dict:
                     max = item['user']['admin']["max"]
                     values = {}
                     for key, value in admin_dict.items():
-                        match key:
-                            case "start":
-                                values["start"] = (f"start at {value[0]} of {calendar.month_name[value[1]]}")
-                            case "end":
-                                values["end"] = (f"end at {value[0]} of {calendar.month_name[value[1]]}")
-                            case "current":
-                                values["current"] = (f"currenly {value} out of {max}")
-                            case "streak":
-                                values["streak"] = (f"current streak is {value}")
+                        if (key == "start"):
+                            values["start"] = (f"start at {value[0]} of {calendar.month_name[value[1]]}")
+                        elif (key == "end"):
+                            values["end"] = (f"end at {value[0]} of {calendar.month_name[value[1]]}")
+                        elif (key == "current"):
+                            values["current"] = (f"currenly {value} out of {max}")
+                        elif (key == "streak"):
+                            values["streak"] = (f"current streak is {value}")
     
     except FileNotFoundError:
         return("File not found")
