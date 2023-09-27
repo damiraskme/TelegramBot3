@@ -22,7 +22,7 @@ async def download_tiktok_answer(message:types.Message, state: FSMContext):
 async def download_tiktok(message:types.Message, state: FSMContext):
     try:
         downloadVideo(message.text, message.from_user.id)
-        tiktok_video = FSInputFile(path=f"videos/file_{message.from_user.id}.mp4")
+        tiktok_video = FSInputFile(path=f"addition/videos/file_{message.from_user.id}.mp4")
             # Send the MP4 file to the user
         await state.set_state(start_state.function_choice)
         await bot.send_video(chat_id=message.from_user.id, video=tiktok_video, caption="Your tiktok video file")
@@ -30,7 +30,7 @@ async def download_tiktok(message:types.Message, state: FSMContext):
         # Check if file exists and if True: delete the file
         deleteTiktok(message.from_user.id)
     except:
-        logging.error(f"Error {dp.current_state}")
+        logging.error(f"Error {state.get_state()}")
         logging.error(f"Can't find file_{message.from_user.id}.mp4 link")
         logging.error(f"Wrong link")
 

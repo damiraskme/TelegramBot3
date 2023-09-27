@@ -69,7 +69,7 @@ async def send_start(message: types.Message, state: FSMContext):
         await message.reply(f"Hi {message.from_user.username}")
         await message.answer("\nChoose from:\nDownload tiktok video /tiktok\nDownload youtube video /youtube\nWrite notes /note\nOr cancel with /cancel")
     except FileNotFoundError:
-        logging.error(f"Error {dp.current_state}")
+        logging.error(f"Error {state.get_state()}")
         logging.error(f"Cant find json file")
 
 # Cancel command
