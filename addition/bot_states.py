@@ -1,4 +1,4 @@
-from aiogram.dispatcher.filters.state import State, StatesGroup
+from aiogram.fsm.state import State, StatesGroup
 
 class start_state(StatesGroup):
     function_choice = State()
@@ -18,3 +18,7 @@ class youtube_states(StatesGroup):
 
 class download_states(StatesGroup):
     download_audio = State()
+
+class calendar_states(StatesGroup):
+    calendar_get = State()
+    calendar_change = State()

@@ -1,15 +1,17 @@
 import logging
 import os
 from aiogram import types
-from aiogram import Dispatcher, types
+from aiogram import Dispatcher, types, Router, F
 
 from aiogram.dispatcher import FSMContext
-from messages.addition import basic_func
-from messages.addition.bot_states import start_state, note_states
+from addition import basic_func
+from addition.bot_states import start_state, note_states
 
 
 bot = basic_func.bot
 dp = basic_func.dp
+
+router_note = Router()
 
 async def note_choice(message: types.Message, state: FSMContext):
     await start_state.note.set()
@@ -17,7 +19,7 @@ async def note_choice(message: types.Message, state: FSMContext):
 
 
 async def note_clear(message: types.Message, state: FSMContext):
-    with open(f"note/{message.from_user.mention}.txt", "w", encoding="utf-8"):
+    with open(f"note/{message.from_user.username}.txt", "w", encoding="utf-8"):
         pass
     await start_state.note.set()
     await message.answer("Notes are cleaned!")
@@ -25,12 +27,12 @@ async def note_clear(message: types.Message, state: FSMContext):
 
 
 async def note_view(message: types.Message, state: FSMContext):
-    if (os.stat(f"note/{message.from_user.mention}.txt").st_size == 0):
+    if (os.stat(f"note/{message.from_user.username}.txt").st_size == 0):
         await start_state.note.set()
         await message.reply("Notes are empty")
         await message.answer("Want to do something else?\nYou can clear notes with /clear\nOr add note with /add\nAlso you can view all your notes with /view")
     else:
-        with open(f"note/{message.from_user.mention}.txt", "r", encoding="utf-8") as read_note:
+        with open(f"note/{message.from_user.username}.txt", "r", encoding="utf-8") as read_note:
             note_read = read_note.read()
         await start_state.note.set()
         await message.answer(note_read, disable_web_page_preview=True)
@@ -41,13 +43,13 @@ async def note_first(message: types.Message, state: FSMContext):
     await message.answer("Send name for note")
 
 async def note_name_remember(message: types.Message, state: FSMContext):
-    with open(f"note/{message.from_user.mention}.txt", "a", encoding="utf-8") as note_write:
+    with open(f"note/{message.from_user.username}.txt", "a", encoding="utf-8") as note_write:
         note_write.write(f"{str(message.text)}: ")
     await note_states.note_add_2.set()
     await message.answer("Now send additional information for note")
 
 async def note_second(message: types.Message, state: FSMContext):
-    with open(f"note/{message.from_user.mention}.txt", "a", encoding="utf-8") as note_write:
+    with open(f"note/{message.from_user.username}.txt", "a", encoding="utf-8") as note_write:
         note_write.write(str(message.text))
         note_write.write("\n")
     await start_state.note.set()
