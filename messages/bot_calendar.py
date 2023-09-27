@@ -70,13 +70,3 @@ async def CalendarDate(message: types.Message, state: FSMContext):
     streak = values["streak"]
     await message.answer(f"{start}" + "\n" + f"{end}" + "\n" + f"{current}" + "\n" + f"{streak}")
 
-# @router_calendar.message(calendar_states.calendar_get, Command("stop"))
-# async def CalendarStop(message: types.Message, state: FSMContext):
-#     values = getJson()
-#     start = values["start"]
-#     end = values["end"]
-#     current = values["current"]
-#     streak = values["streak"]
-#     await message.answer(f"{start}" + "\n" + f"{end}" + "\n" + f"{current}" + "\n" + f"{streak}")
-#     await state.set_state(start_state.function_choice)
-#     await send_start()

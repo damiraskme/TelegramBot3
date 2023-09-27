@@ -7,7 +7,7 @@ def downloadYoutube(link, id):
     if (yt.length < 600):
         yt = yt.streams.get_by_resolution("720p")
         try:
-            youtube_video_downloaded = yt.download(output_path='videos', filename=f'youtube_for_{id}.mp4')
+            youtube_video_downloaded = yt.download(output_path='addition/videos', filename=f'youtube_for_{id}.mp4')
             youtube_video_downloaded
             print("Download is completed successfully")
         except:
@@ -23,7 +23,7 @@ def downloadYoutubemp3(link, id):
     if (yt.length < 600):
         yt = yt.streams.filter(only_audio=True).first()
         try:
-            youtube_video_downloaded = yt.download(output_path='videos', filename=f'youtube_for_{id}.mp3')
+            youtube_video_downloaded = yt.download(output_path='addition/videos', filename=f'youtube_for_{id}.mp3')
             youtube_video_downloaded
             print("Download is completed successfully")
         except:
@@ -36,7 +36,7 @@ def getYoutubeLength(link):
         parts = (length // 600)
         for i in range(0, parts*600, 600):
             yt.streams.filter(progressive=True, file_extension="mp4",).first().download(
-                output_path="videos",
+                output_path="addition/videos",
                 filename=f"{getTitle(link)+str(i+1)}",
                 skip_existing=True,
                 start = i,
@@ -45,8 +45,8 @@ def getYoutubeLength(link):
 
 def deleteYoutube(id: str):
     try:
-        if (os.path.isfile(f"videos/youtube_for_{id}.mp4")):
-            os.remove(f"videos/youtube_for_{id}.mp4")
+        if (os.path.isfile(f"addition/videos/youtube_for_{id}.mp4")):
+            os.remove(f"addition/videos/youtube_for_{id}.mp4")
             logging.info("File deleted")
     except FileNotFoundError:
         logging.info("Error")
