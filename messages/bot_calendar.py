@@ -14,9 +14,9 @@ bot = basic_func.bot
 dp = basic_func.dp
 router_calendar = Router()
 
-pattern_add = r"^(current|streak)\s+(add)$"
-pattern_set = r"^(current|streak)\s+(set)\s+(\d+)$"
-pattern_date = r"^(date)\s+(set)$"
+pattern_add = r"^([cC]urrent|[sS]treak)\s+(add)$"
+pattern_set = r"^([cC]urrent|[sS]treak)\s+(set)\s+(\d+)$"
+pattern_date = r"^([dD]ate)\s+(set)$"
     
 @router_calendar.message(Command("calendar"), start_state.function_choice)
 async def CalendarStart(message: types.Message, state: FSMContext):
