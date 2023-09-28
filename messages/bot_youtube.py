@@ -29,48 +29,47 @@ async def download_youtube_answer(message: types.Message, state: FSMContext):
     await message.reply("Choose between MP3 or MP4", reply_markup=kb.youtube_kb)
 
 @router_youtube.callback_query(youtube_states.youtube_choice, F.data == "mp4_button")
-async def download_youtubemp4(message: types.Message, state: FSMContext):
+async def download_youtubemp4(callback: types.CallbackQuery, state: FSMContext):
     try:
-        downloadYoutube(youtube_links[message.from_user.id], message.from_user.id)
+        downloadYoutube(youtube_links[callback.from_user.id], callback.from_user.id)
     except:
         logging.error(f"Error {state.get_state()}")
-        logging.error(f"Can't find {youtube_links[message.from_user.id]} link")
+        logging.error(f"Can't find {youtube_links[callback.from_user.id]} link")
         logging.error(f"Wrong link")
-    youtube_title = getTitle(youtube_links[message.from_user.id])
-    youtube_video = FSInputFile(path=f"addition/videos/youtube_for_{message.from_user.id}.mp4")
+    youtube_title = getTitle(youtube_links[callback.from_user.id])
+    youtube_video = FSInputFile(path=f"addition/videos/youtube_for_{callback.from_user.id}.mp4")
     try:
         youtube_links.clear()
         await state.set_state(start_state.function_choice)
-        await bot.send_video(chat_id=message.from_user.id, video=youtube_video, caption=f"{youtube_title}")
-        await bot.send_message(text="Want to do something else or cancel with /cancel")
+        await bot.send_video(chat_id=callback.from_user.id, video=youtube_video, caption=f"{youtube_title}")
+        await bot.send_message(chat_id=callback.from_user.id, text="Want to do something else or cancel with /cancel")
+        # Check if file exists and if True: delete the file
+        deleteYoutube(callback.from_user.id)
 
     except FileNotFoundError:
         logging.error(f"Error {state.get_state()}")
-        logging.error(f"Can't find {youtube_links[message.from_user.id]} file")
+        logging.error(f"Can't find {youtube_links[callback.from_user.id]} file")
 
-        # Check if file exists and if True: delete the file
-    deleteYoutube(message.from_user.id)
 
 @router_youtube.callback_query(youtube_states.youtube_choice, F.data == "mp3_button")
-async def download_youtubemp3(message: types.Message, state: FSMContext):
+async def download_youtubemp3(callback: types.CallbackQuery, state: FSMContext):
     try:
-        downloadYoutubemp3(youtube_links[message.from_user.id], message.from_user.id)
+        downloadYoutubemp3(youtube_links[callback.from_user.id], callback.from_user.id)
     except:
         logging.error(f"Error {state.get_state()}")
-        logging.error(f"Can't find {youtube_links[message.from_user.id]} link")
+        logging.error(f"Can't find {youtube_links[callback.from_user.id]} link")
         logging.error(f"Wrong link")
-    youtube_title = getTitle(youtube_links[message.from_user.id])
-    youtube_video = FSInputFile(path=f"addition/videos/youtube_for_{message.from_user.id}.mp3")
+    youtube_title = getTitle(youtube_links[callback.from_user.id])
+    youtube_video = FSInputFile(path=f"addition/videos/youtube_for_{callback.from_user.id}.mp3")
     try:
             # Send the MP3 file to the user
             youtube_links.clear()
             await state.set_state(start_state.function_choice)
-            await bot.send_audio(chat_id=message.from_user.id, audio=youtube_video, caption=f"{youtube_title}")
-            await bot.send_message(text="Want to do something else or cancel with /cancel")
+            await bot.send_audio(chat_id=callback.from_user.id, audio=youtube_video, caption=f"{youtube_title}")
+            await bot.send_message(chat_id=callback.from_user.id, text="Want to do something else or cancel with /cancel")
+            # Check if file exists and if True: delete the file
+            deleteYoutube(callback.from_user.id)
 
     except FileNotFoundError:
         logging.error(f"Error {state.get_state()}")
-        logging.error(f"Can't find {youtube_links[message.from_user.id]} file")
-
-        # Check if file exists and if True: delete the file
-    deleteYoutube(message.from_user.id)
+        logging.error(f"Can't find {youtube_links[callback.from_user.id]} file")
