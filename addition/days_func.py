@@ -111,5 +111,3 @@ def getJson() -> dict:
     except json.JSONDecodeError:
         return("decode error")
     return values
-
-

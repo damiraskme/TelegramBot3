@@ -33,4 +33,3 @@ async def download_tiktok(message:types.Message, state: FSMContext):
         logging.error(f"Error {state.get_state()}")
         logging.error(f"Can't find file_{message.from_user.id}.mp4 link")
         logging.error(f"Wrong link")
-
