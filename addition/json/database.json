@@ -1,0 +1,23 @@
+[
+    {
+        "user": {
+            "name": "Дамир Дамир",
+            "id": 766608247,
+            "username": "DamirAskMe",
+            "time": "Thu Sep 28 16:00:18 2023",
+            "admin": {
+                "start": [
+                    10,
+                    9
+                ],
+                "end": [
+                    10,
+                    10
+                ],
+                "max": 10,
+                "current": 10,
+                "streak": 0
+            }
+        }
+    }
+]
