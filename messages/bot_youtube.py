@@ -44,7 +44,7 @@ async def download_youtubemp4(callback: types.CallbackQuery, state: FSMContext):
         await bot.send_video(chat_id=callback.from_user.id, video=youtube_video, caption=f"{youtube_title}")
         await bot.send_message(chat_id=callback.from_user.id, text="Want to do something else or cancel with /cancel")
         # Check if file exists and if True: delete the file
-        deleteYoutube(callback.from_user.id)
+        deleteYoutube(callback.from_user.id, "mp4")
 
     except FileNotFoundError:
         logging.error(f"Error {state.get_state()}")
@@ -68,7 +68,7 @@ async def download_youtubemp3(callback: types.CallbackQuery, state: FSMContext):
             await bot.send_audio(chat_id=callback.from_user.id, audio=youtube_video, caption=f"{youtube_title}")
             await bot.send_message(chat_id=callback.from_user.id, text="Want to do something else or cancel with /cancel")
             # Check if file exists and if True: delete the file
-            deleteYoutube(callback.from_user.id)
+            deleteYoutube(callback.from_user.id, "mp3")
 
     except FileNotFoundError:
         logging.error(f"Error {state.get_state()}")

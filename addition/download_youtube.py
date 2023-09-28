@@ -43,10 +43,10 @@ def getYoutubeLength(link):
                 end=i+600
             )
 
-def deleteYoutube(id: str):
+def deleteYoutube(id: str, ext: str):
     try:
-        if (os.path.isfile(f"addition/videos/youtube_for_{id}.mp4")):
-            os.remove(f"addition/videos/youtube_for_{id}.mp4")
+        if (os.path.isfile(f"addition/videos/youtube_for_{id}.{ext}")):
+            os.remove(f"addition/videos/youtube_for_{id}.{ext}")
             logging.info("File deleted")
     except FileNotFoundError:
         logging.info("Error")

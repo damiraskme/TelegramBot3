@@ -65,7 +65,7 @@ def setDates():
     except json.JSONDecodeError:
         return("decode error")
     
-def getData():
+def getData() -> list:
     try:
         with open("addition/json/database.json", "r", encoding="utf-8") as file:
             data = json.load(file)
@@ -111,4 +111,3 @@ def getJson() -> dict:
     except json.JSONDecodeError:
         return("decode error")
     return values
-
